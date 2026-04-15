@@ -1,5 +1,17 @@
-import addList , print_list , total_amount , menu
-expense_list = []
+import addList , print_list , total_amount , menu , json
+
+def load_expense():
+    try:
+        with open("expenses.txt" , 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return []
+    
+def save_expense(expenses):
+    with open("expenses.txt" , 'w') as file:
+        json.dump(expenses , file)
+
+expense_list = load_expense()
 
 print("Welcome to Expense Tracker\n")
 while(True):
@@ -10,6 +22,8 @@ while(True):
 #   Adding expenses
     elif choice == 1:
         expense_list.append(addList.add_item())
+        save_expense(expense_list)
+
 
 #   Printing Expenses
     elif choice == 2:
